@@ -5,7 +5,6 @@
 
   defaults = { pkgs, ... }: {
     deployment = {
-      replaceUnknownProfiles = true;
       targetUser = "elsirion";
     };
     
@@ -20,6 +19,7 @@
         extraGroups = [ "wheel" ];
         openssh.authorizedKeys.keys = [
           (builtins.readFile ./id_rsa.pub)
+          "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAII9H+Ls/IS8yOTvUHS6e5h/EXnn5V3mg23TlqcSExiUk mail@justinmoon.com" # TODO: create separate account
         ];
         hashedPassword = "$6$.FhPAweWIPA4A$5JrQXS/TAvscjjaPj1b2OhPPeb0VJiKKFQk00.FogspSp3HLXkMAnC8mPO92TRwBJePPXXObQbl.FQ6GVNQWI/";
       };
