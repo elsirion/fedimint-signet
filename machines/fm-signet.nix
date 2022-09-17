@@ -49,20 +49,11 @@ in
   };
 
   services = {
-    tor = {
-      enable = true;
-      client.enable = true;
-    };
-
     bitcoind = {
       enable = true;
       signet = true;
       disablewallet = true;
       dbCache = 2000;
-      tor = {
-        proxy = true;
-        enforce = true;
-      };
     };
 
     fedimint = {
@@ -96,7 +87,7 @@ in
         enableACME = true;
         addSSL = true;
         locations."/" = {
-          proxyPass = "http://127.0.0.1:8080";
+          proxyPass = "http://127.0.0.1:8080/";
           proxyWebsockets = true;
           extraConfig = "proxy_pass_header Authorization;";
         };

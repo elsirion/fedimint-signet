@@ -49,20 +49,11 @@ in
   };
 
   services = {
-    tor = {
-      enable = true;
-      client.enable = true;
-    };
-
     bitcoind = {
       enable = true;
       signet = true;
       disablewallet = true;
       dbCache = 2000;
-      tor = {
-        proxy = true;
-        enforce = true;
-      };
     };
 
     clightning = {
