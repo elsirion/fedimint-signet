@@ -1,28 +1,6 @@
 { config, pkgs, lib, ... }:
 let
   nix-bitcoin = import ./templates/nix-bitcoin.nix;
-  fedimint-master = { stdenv, lib, rustPlatform, fetchurl, pkgs, fetchFromGitHub, openssl, pkg-config, perl, clang, jq }:
-    rustPlatform.buildRustPackage rec {
-      pname = "fedimint";
-      version = "master";
-      nativeBuildInputs = [ pkg-config perl openssl clang jq pkgs.mold ];
-      OPENSSL_DIR = "${pkgs.openssl.dev}";
-      OPENSSL_LIB_DIR = "${pkgs.openssl.out}/lib";  
-      LIBCLANG_PATH = "${pkgs.llvmPackages.libclang.lib}/lib";
-      src = builtins.fetchGit {
-        url = "https://github.com/elsirion/minimint";
-        ref = "signet";
-        rev = "46363c365aa97f4a8d900d943abb9db199407cb6";
-      };
-      cargoSha256 = "sha256-ryObJ0Gaka5hIeQn0dfotQPZzZnGptTN4cXOCIph2ws=";
-      meta = with lib; {
-        description = "Federated Mint Prototype";
-        homepage = "https://github.com/fedimint/minimint";
-        license = licenses.mit;
-        maintainers = with maintainers; [ wiredhikari ];
-      };
-    };
-  fedimint = pkgs.callPackage fedimint-master {};
 in
 {
   deployment = {
@@ -89,7 +67,6 @@ in
 
     fedimint = {
       enable = true;
-      package = fedimint;
     };
 
     clightning = {
@@ -99,7 +76,6 @@ in
         summary.enable = true;
         fedimint-gw = {
           enable = true;
-          package = fedimint;
         };
       };
       extraConfig = ''
