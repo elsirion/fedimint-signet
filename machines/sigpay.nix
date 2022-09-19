@@ -1,6 +1,11 @@
 { config, pkgs, lib, ... }:
 let
   nix-bitcoin = import ./templates/nix-bitcoin.nix;
+  faucet-override = import (builtins.fetchGit {
+    url = "https://github.com/elsirion/fedimint_helper";
+    ref = "2022-09-show-error";
+    rev = "0822f788adf8c394a0d039706e5d53f4ccf0a981";
+  });
 in
 {
   deployment = {
@@ -81,6 +86,7 @@ in
       connect = ''
         {"members":[[0,"wss://fm-signet.sirion.io:443"]],"max_evil":0}
       '';
+      package = pkgs.callPackage faucet-override {};
     };
 
     nginx = {
