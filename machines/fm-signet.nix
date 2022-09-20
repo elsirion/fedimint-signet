@@ -1,6 +1,29 @@
 { config, pkgs, lib, ... }:
 let
   nix-bitcoin = import ./templates/nix-bitcoin.nix;
+  fedimint-override = pkgs.callPackage
+    ({ stdenv, lib, rustPlatform, fetchurl, pkgs, fetchFromGitHub, openssl, pkg-config, perl, clang, jq }:
+      rustPlatform.buildRustPackage rec {
+        pname = "fedimint";
+        version = "master";
+        nativeBuildInputs = [ pkg-config perl openssl clang jq pkgs.mold ];
+        doCheck = false;
+        OPENSSL_DIR = "${pkgs.openssl.dev}";
+        OPENSSL_LIB_DIR = "${pkgs.openssl.out}/lib";  
+        LIBCLANG_PATH = "${pkgs.llvmPackages.libclang.lib}/lib";
+        src = builtins.fetchGit {
+          url = "https://github.com/elsirion/fedimint";
+          ref = "2022-09-fast-ln";
+          rev = "734f1414298816ef36ae5ca1299049556276ebd6";
+        };
+        cargoSha256 = "sha256-gsmdUN9WkhBMIaPTZ75ynijhrqPhYOvHCSttRaTnmWU=";
+        meta = with lib; {
+          description = "Federated Mint Prototype";
+          homepage = "https://github.com/fedimint/fedimint";
+          license = licenses.mit;
+          maintainers = with maintainers; [ wiredhikari ];
+        };
+      }) {};
 in
 {
   deployment = {
@@ -58,6 +81,7 @@ in
 
     fedimint = {
       enable = true;
+      package = fedimint-override;
     };
 
     clightning = {
@@ -67,6 +91,7 @@ in
         summary.enable = true;
         fedimint-gw = {
           enable = true;
+          package = fedimint-override;
         };
       };
       extraConfig = ''
