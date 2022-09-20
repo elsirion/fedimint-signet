@@ -3,8 +3,8 @@ let
   nix-bitcoin = import ./templates/nix-bitcoin.nix;
   faucet-override = import (builtins.fetchGit {
     url = "https://github.com/elsirion/fedimint_helper";
-    ref = "2022-09-show-error";
-    rev = "0822f788adf8c394a0d039706e5d53f4ccf0a981";
+    ref = "2022-09-improve-help-text";
+    rev = "2fa8e6ed27f5b2aa8bc07d84be93d6c172c0d1ca";
   });
 in
 {
