@@ -6,10 +6,11 @@ let
     ref = "2022-09-improve-help-text";
     rev = "2fa8e6ed27f5b2aa8bc07d84be93d6c172c0d1ca";
   });
+  ip = "107.189.12.188";
 in
 {
   deployment = {
-    targetHost = "107.189.12.188";
+    targetHost = ip;
     tags = [ "bitcoin" "lightning" "signet" "btcpay" ];
   };
 
@@ -25,7 +26,7 @@ in
     interfaces.ens3 = {
       useDHCP = false;
       ipv4.addresses = [{
-        address = "107.189.12.188";
+        address = ip;
         prefixLength = 24;
       }];
     };
@@ -68,6 +69,7 @@ in
         summary.enable = true;
       };
       extraConfig = ''
+        announce-addr=${ip}:9735
         alias=sigpay.sirion.io
         large-channels
         experimental-offers

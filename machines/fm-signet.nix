@@ -24,10 +24,11 @@ let
           maintainers = with maintainers; [ wiredhikari ];
         };
       }) {};
+  ip = "104.244.73.68";
 in
 {
   deployment = {
-    targetHost = "104.244.73.68";
+    targetHost = ip;
     tags = [ "bitcoin" "lightning" "signet" "fedimint" ];
   };
 
@@ -43,7 +44,7 @@ in
     interfaces.ens3 = {
       useDHCP = false;
       ipv4.addresses = [{
-        address = "104.244.73.68";
+        address = ip;
         prefixLength = 24;
       }];
     };
@@ -95,6 +96,7 @@ in
         };
       };
       extraConfig = ''
+        announce-addr=${ip}:9735
         alias=fm-signet.sirion.io
         large-channels
         experimental-offers
