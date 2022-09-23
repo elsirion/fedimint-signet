@@ -105,6 +105,11 @@ in
       '';
     };
 
+    rtl = {
+      enable = true;
+      nodes.clightning.enable = true;
+      port = 3002;
+    };
 
     nginx = {
       enable = true;
@@ -124,6 +129,11 @@ in
         addSSL = true;
         locations."/" = {
           proxyPass = "http://104.244.73.68:5000";
+          proxyWebsockets = true;
+          extraConfig = "proxy_pass_header Authorization;";
+        };
+        locations."/rtl/" = {
+          proxyPass = "http://127.0.0.1:3002";
           proxyWebsockets = true;
           extraConfig = "proxy_pass_header Authorization;";
         };
