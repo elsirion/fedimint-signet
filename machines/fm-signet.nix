@@ -108,7 +108,6 @@ in
     rtl = {
       enable = true;
       nodes.clightning.enable = true;
-      port = 3002;
     };
 
     nginx = {
@@ -117,7 +116,7 @@ in
       proxyTimeout = "1d";
       virtualHosts."fm-signet-gateway.sirion.io" = {
         enableACME = true;
-        addSSL = true;
+        forceSSL = true;
         locations."/" = {
           proxyPass = "http://127.0.0.1:8080/";
           proxyWebsockets = true;
@@ -126,14 +125,14 @@ in
       };
       virtualHosts."fm-signet.sirion.io" = {
         enableACME = true;
-        addSSL = true;
+        forceSSL = true;
         locations."/" = {
           proxyPass = "http://104.244.73.68:5000";
           proxyWebsockets = true;
           extraConfig = "proxy_pass_header Authorization;";
         };
         locations."/rtl/" = {
-          proxyPass = "http://127.0.0.1:3002";
+          proxyPass = "http://127.0.0.1:3000";
           proxyWebsockets = true;
           extraConfig = "proxy_pass_header Authorization;";
         };
