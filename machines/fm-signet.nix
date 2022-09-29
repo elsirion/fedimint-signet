@@ -12,11 +12,11 @@ let
         OPENSSL_LIB_DIR = "${pkgs.openssl.out}/lib";  
         LIBCLANG_PATH = "${pkgs.llvmPackages.libclang.lib}/lib";
         src = builtins.fetchGit {
-          url = "https://github.com/elsirion/fedimint";
-          ref = "2022-09-fast-ln";
-          rev = "734f1414298816ef36ae5ca1299049556276ebd6";
+          url = "https://github.com/fedimint/fedimint";
+          ref = "hcpp";
+          rev = "10d408e20e99b33e9cca102bf104324cee893134";
         };
-        cargoSha256 = "sha256-gsmdUN9WkhBMIaPTZ75ynijhrqPhYOvHCSttRaTnmWU=";
+        cargoSha256 = "sha256-rFkzIvW11DmDEn3QpcAUS7owqU8iTnjX0uTBGUlvtyc=";
         meta = with lib; {
           description = "Federated Mint Prototype";
           homepage = "https://github.com/fedimint/fedimint";

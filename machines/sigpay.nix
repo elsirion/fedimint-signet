@@ -2,9 +2,9 @@
 let
   nix-bitcoin = import ./templates/nix-bitcoin.nix;
   faucet-override = import (builtins.fetchGit {
-    url = "https://github.com/fedimint/faucet";
-    ref = "master";
-    rev = "c2c2ad17aa48047b2daffff5342355fac9713e7c";
+    url = "https://github.com/elsirion/fedimint_helper";
+    ref = "2022-09-hcpp-upgrade";
+    rev = "162417e6d5c6824ae80fa29dbc036c25841ea6f3";
   });
   ip = "107.189.12.188";
 in
@@ -86,7 +86,7 @@ in
     fedimint-faucet = {
       enable = true;
       connect = ''
-        {"members":[[0,"wss://fm-signet.sirion.io:443"]],"max_evil":0}
+        {"members":[[0,"wss://fm-signet.sirion.io:443"]]}
       '';
       package = pkgs.callPackage faucet-override {};
     };
