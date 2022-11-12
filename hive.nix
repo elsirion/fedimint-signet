@@ -40,20 +40,20 @@ in {
   sigpay = import ./machines/sigpay.nix;
   demo-alpha = demo {
     hostName = "alpha";
-    hashedPassword = "$y$j9T$ZYjQO/dOFQWxQUi6M5F7A.$5XxFjTXBmBs.sdhymYwqgCoyruprLWXWtpupWFprWIB";
+    hashedPassword = "$6$hzIRKLk8LIKxm0PT$XHEkBRfYy45AW7evbA8lrdMq64mcBwsKjZ6tHzbJgHFaYNgTvoAR6GdQj.XhYmguXGscrTaJLMlAeDG9KrAyt.";
     isGateway = true;
   };
   demo-bravo = demo {
     hostName = "bravo";
-    hashedPassword = "$y$j9T$Ll2b8mxiSYorjv5Vcw1Ws1$tp/1bCG3oucnGkEFdxnU2maKwFhZ91EfoG40U1SLzQ1";
+    hashedPassword = "$6$gZIBwt.fHujNo0xY$dLqq.0ae8Pfxe8qYYrKIPC6sK8Jl04AllEcSgLm6fTMiAXzE.cacN4AwEeOsMMHXeHJIrSrvYtIDAVbBy/YDC0";
   };
   demo-charlie = demo {
     hostName = "charlie";
-    hashedPassword = "$y$j9T$rceqB9AC.PxAcMupBXvO.0$I8QMvFLhxx9Enp5tRugTWZixPsWuRgYtr2TonwoBug1";
+    hashedPassword = "$6$eKwsHabyXiTNQCfn$RM3IYTxOuJW8Zlqoa8bi03CqYP0wFqXCg0c6uN6twUWOunJploYk43WWnvDfC0XeHRht1NmBSMUZOw.zcG5Be.";
   };
   demo-delta = demo {
     hostName = "delta";
-    hashedPassword = "$y$j9T$ljLCyZEIca1rp24ImkwPL1$CYvDmGDAigIm/4gQ.S8Ci6UU86WzHuysQZ1mcO8U15A";
+    hashedPassword = "$6$k6QJK/nyCbKEhAU.$ZEDh6dP1t7dC0kJTmWZwlumQRrIFvMcJFxb1r1hNo0..dXq3ftfzcNn2/DtvbaKqMqju6ErxK3LRIyrSImOJu0";
   };
 }
 
