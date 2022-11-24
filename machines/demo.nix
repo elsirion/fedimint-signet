@@ -95,23 +95,15 @@ in
   services = {
     bitcoind = {
       enable = true;
-      regtest = true;
       dbCache = 1000;
       extraConfig = ''
-        connect=alpha.demo.sirion.io:8333
-        connect=bravo.demo.sirion.io:8333
-        connect=charlie.demo.sirion.io:8333
-        connect=delta.demo.sirion.io:8333
+        connect=btc.internal.sirion.io:8333
         rpcauth=bitcoin:a15feeea5b0ec69c22a6ba065816c591$e0822ecb0e7b36c9c77ec8aae3889d6fd3323e8fdac8cbd06cf8f83734130fc5
         fallbackfee=0.00008
       '';
       address = "0.0.0.0";
       listen = true;
-    };
-
-    fedimint = {
-      enable = true;
-      package = fedimint-override;
+      prune = 1000;
     };
 
     clightning = {
