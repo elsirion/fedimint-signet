@@ -4,44 +4,21 @@ let
   nix-bitcoin = builtins.fetchGit {
     url = "https://github.com/elsirion/nix-bitcoin/";
     ref = "adopting";
-    rev = "665542935c7598d6e9751c2ae86b4dbb5cda993d";
+    rev = "d2b60c461db2e1f7f7595828dbe3363f7d91f882";
   };
-  fedimint-override = pkgs.callPackage
-    ({ stdenv, lib, rustPlatform, fetchurl, pkgs, fetchFromGitHub, openssl, pkg-config, perl, clang, jq }:
-      rustPlatform.buildRustPackage rec {
-        pname = "fedimint";
-        version = "master";
-        nativeBuildInputs = [ pkg-config perl openssl clang jq pkgs.mold pkgs.llvmPackages.lld ];
-        doCheck = false;
-        OPENSSL_DIR = "${pkgs.openssl.dev}";
-        OPENSSL_LIB_DIR = "${pkgs.openssl.out}/lib";  
-        LIBCLANG_PATH = "${pkgs.llvmPackages.libclang.lib}/lib";
-        src = builtins.fetchGit {
-          url = "https://github.com/elsirion/fedimint";
-          ref = "ui-dkg";
-          rev = "ab4db1043c1e33b7ad35c65ba8279b493ce9640e";
-        };
-        cargoSha256 = "sha256-7LToch7VaOECgc4EDEyP2WNw+llHANilU3XJIyrqy6o=";
-        meta = with lib; {
-          description = "Federated Mint Prototype";
-          homepage = "https://github.com/fedimint/fedimint";
-          license = licenses.mit;
-          maintainers = with maintainers; [ wiredhikari ];
-        };
-      }) {};
-  # fedimint-override = (import
-  #   (
-  #     fetchTarball {
-  #       url = "https://github.com/edolstra/flake-compat/archive/b4a34015c698c7793d592d66adbab377907a2be8.tar.gz";
-  #       sha256 = "sha256:1qc703yg0babixi6wshn5wm2kgl5y1drcswgszh4xxzbrwkk9sv7";
-  #     }
-  #   )
-  #   { src = fetchTarball {
-  #       url = "https://github.com/elsirion/fedimint/archive/5b7e11cab974ebaa569abbde6d9a62fb9f7b2e0e.tar.gz";
-  #       sha256 = "sha256:18f1xh4zp7kf0pr3acjw71mk7zs3365szsi8d2n24sbp5m0230kf";
-  #     };
-  #   }
-  # ).defaultNix.packages.x86_64-linux.workspaceBuild;
+  fedimint-override = (import
+    (
+      fetchTarball {
+        url = "https://github.com/edolstra/flake-compat/archive/b4a34015c698c7793d592d66adbab377907a2be8.tar.gz";
+        sha256 = "sha256:1qc703yg0babixi6wshn5wm2kgl5y1drcswgszh4xxzbrwkk9sv7";
+      }
+    )
+    { src = fetchTarball {
+        url = "https://github.com/fedimint/fedimint/archive/67f7ddcfc6ed775e75b089e13d312a1edf2b9dd7.tar.gz";
+        sha256 = "sha256:1qvhisn39483fjddyzfps7fwn4b2j8vqk9lfkfqm5djy1x5dbccf";
+      };
+    }
+  ).defaultNix.packages.x86_64-linux;
   fqdn = "${hostName}.demo.sirion.io";
 in
 {
@@ -58,7 +35,7 @@ in
  
   networking = {
     hostName = hostName;
-    firewall.allowedTCPPorts = [ 80 443 5002 5003 5004 5005 5006 5007 5008 5009 5010 5011 8333 ];
+    firewall.allowedTCPPorts = [ 80 443 5000 5001 5002 5003 5004 5005 5006 5007 5008 5009 5010 5011 8333 ];
     interfaces.ens3.useDHCP = true;
   };
 
@@ -113,7 +90,7 @@ in
         summary.enable = true;
         fedimint-gw = {
           enable = isGateway;
-          package = fedimint-override;
+          package = fedimint-override.ln-gateway;
         };
       };
       extraConfig = ''
@@ -123,6 +100,11 @@ in
         fee-base=0
         fee-per-satoshi=100
       '';
+    };
+
+    fedimint = {
+      enable = true;
+      package = fedimint-override.fedimintd;
     };
 
     ttyd = {
