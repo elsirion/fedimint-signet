@@ -14,8 +14,8 @@ let
       }
     )
     { src = fetchTarball {
-        url = "https://github.com/fedimint/fedimint/archive/67f7ddcfc6ed775e75b089e13d312a1edf2b9dd7.tar.gz";
-        sha256 = "sha256:1qvhisn39483fjddyzfps7fwn4b2j8vqk9lfkfqm5djy1x5dbccf";
+        url = "https://github.com/fedimint/fedimint/archive/15febb2e6990aa3e27c94bd5f565b14208752500.tar.gz";
+        sha256 = "sha256:1r9m6njbh73q6dzck1rvk6h57w5vi62flig95jb55zavw0kp93kn";
       };
     }
   ).defaultNix.packages.x86_64-linux;
@@ -129,31 +129,7 @@ in
         enableACME = true;
         forceSSL = true;
         locations."/" = {
-          proxyPass = "http://${ip}:5003";
-          proxyWebsockets = true;
-          extraConfig = "proxy_pass_header Authorization;";
-        };
-        locations."/admin/" = {
-          proxyPass = "http://127.0.0.1:5001/";
-          proxyWebsockets = true;
-          extraConfig = "proxy_pass_header Authorization;";
-        };
-        locations."/tty/" = {
-          proxyPass = "http://127.0.0.1:7681/";
-          proxyWebsockets = true;
-          extraConfig = "proxy_pass_header Authorization;";
-        };
-      };
-      virtualHosts."admin.${fqdn}" = {
-        enableACME = true;
-        forceSSL = true;
-        locations."/" = {
-          proxyPass = "http://127.0.0.1:5001/";
-          proxyWebsockets = true;
-          extraConfig = "proxy_pass_header Authorization;";
-        };
-        locations."/tty/" = {
-          proxyPass = "http://127.0.0.1:7681/";
+          proxyPass = "http://${ip}:5001";
           proxyWebsockets = true;
           extraConfig = "proxy_pass_header Authorization;";
         };

@@ -22,6 +22,7 @@ in {
         openssh.authorizedKeys.keys = [
           (builtins.readFile ./id_rsa.pub)
           "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAII9H+Ls/IS8yOTvUHS6e5h/EXnn5V3mg23TlqcSExiUk mail@justinmoon.com" # TODO: create separate account
+          "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQC3aMTG1hzTO0+v5e7hlh6kkOkSCQbReJMZC/w8bFR/JwHUxuPtw1zNIvQuzofoqv/AeMBZFTzmNbN3IVsWRO3UoVkE6BIHqggzqf1jjI78hnmGqktKn1SltxZ/j0JkO++5YWU/ItkifB5czPnMgWcQl7860jNeNK/OiPSCCpiMvdu6c7UEjFr4O1JrACRAavohQE4dcHQ1LyZ99RzCMICSS0OFoarxJkxFg9+TOrq2jmUv4Z4faPT5WMdwXJ3dTmaGBlT1JddWR+BxDeeXWHx0p90T2oWmROnBJx/d5KGReXSFQzOj6irI3J9k5x1sGBlBLq/n4L8fBgnW+g0Ih+uMm8w5iocCuOsHxyDZIViziMLe2LQPIUovgpgTgKMuGxPYeUMxTOjHDqzdAfHU8yTZKVwS1KPzYVxbQaLK9kNUZtjsKQbkLC3aFr85GfJEhBO+6tzaN6ia491aSna4l+lI6Y7iHDJ/Ed918GBygln5uLpp8glDcxWRAQCaXmADamc= deployserver"
         ];
         hashedPassword = "$6$.FhPAweWIPA4A$5JrQXS/TAvscjjaPj1b2OhPPeb0VJiKKFQk00.FogspSp3HLXkMAnC8mPO92TRwBJePPXXObQbl.FQ6GVNQWI/";
       };
