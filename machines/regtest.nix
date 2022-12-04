@@ -1,4 +1,4 @@
-{hostName, hashedPassword, ip, isGateway ? false}:
+{ hostName, ip }:
 { config, pkgs, lib, ... }:
 let
   nix-bitcoin = builtins.fetchGit {
@@ -14,17 +14,17 @@ let
       }
     )
     { src = fetchTarball {
-        url = "https://github.com/fedimint/fedimint/archive/15febb2e6990aa3e27c94bd5f565b14208752500.tar.gz";
-        sha256 = "sha256:1r9m6njbh73q6dzck1rvk6h57w5vi62flig95jb55zavw0kp93kn";
+        url = "https://github.com/fedimint/fedimint/archive/d6abe820a0e52c84291a112804ef1d9652f2e810.tar.gz";
+        sha256 = "sha256:154kk1p07ijiyjmm4d9x49g8n3d1dmqd0p8szq22jibd7aaaslpr";
       };
     }
   ).defaultNix.packages.x86_64-linux;
-  fqdn = "${hostName}.demo.sirion.io";
+  fqdn = "${hostName}.regtest.sirion.io";
 in
 {
   deployment = {
     targetHost = fqdn;
-    tags = [ "bitcoin" "mainnet" "fedimint" "demo" ];
+    tags = [ "bitcoin" "regtest" "fedimint" ];
   };
 
   imports = [
@@ -32,10 +32,13 @@ in
     "${nix-bitcoin}/modules/modules.nix"
   ];
 
+  environment.systemPackages = [
+    fedimint-override.fedimint-cli
+  ];
  
   networking = {
     hostName = hostName;
-    firewall.allowedTCPPorts = [ 80 443 5000 5001 5002 5003 5004 5005 5006 5007 5008 5009 5010 5011 8333 ];
+    firewall.allowedTCPPorts = [ 80 443 8333 9735 ];
     interfaces.ens3.useDHCP = true;
   };
 
@@ -47,8 +50,8 @@ in
         openssh.authorizedKeys.keys = [
           (builtins.readFile ../id_rsa.pub)
           "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAII9H+Ls/IS8yOTvUHS6e5h/EXnn5V3mg23TlqcSExiUk mail@justinmoon.com" # TODO: create separate account
+          "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQC3sJOyg8iYMV57DD3KtohfbY/FI4iDrVGn3KWxjFYc3VDX38vVRid/64f72bYHz3lWBuRvzBaOmGqJukVzLzQ0SfMqgll4cIIFGz3ScnQsQSdDwrzpvxc7GcrFQQ2bFcWgs3zb5Yqc8AmXj5crJNlBBT8hPkrdxL3j8FRC8n9+hdDGDyaYyJZiO+ufIfYKrDxQM01XkjrL8PCoiCdyGZEqg+OaYhRIn456uNIXCa6/z0vxETZDqu2nRZfdKwkUuJTCpblkSh1wnQuWUxuca5K21oe/OTv5u6Y4ZtsF1hTPqFMDfcflyq6xodl7xEfVQSAMrHXel6qNzjl1PxQDi4YKOeAuQjZS0o0YbDCysQAhviDiRmn8gnQb8siZNmuTibJkV8kWo1TO5FVkxiHefWeCb8ntFNM6a/UGfVjggl0UR8DugAubWHatZ7LOC9s8YMavmSXLg73IOAokZcLexsSDz9gKa6MNGBm8bt7KgFElU/aL6IwCXfNvyq7XXhi65OWRbNT3SFT2dAtxHDhdh0NhlDo9PDecJfl003VJ9I+zddyflOXzAE1/Xi8uBfeWPSGu9H2LBX6ik0ydjSDgkidRe0hRkRzIotb3fHN6GK5b+kGbPclASH17C/lmEPAjFCHVYFwcaDqmCHLwll5D1ji7Lcw/4uG6qSn1DU8GJf7E4w== oscarlafarga@mac-studio.lan"
         ];
-        hashedPassword = hashedPassword;
       };
     };
 
@@ -72,24 +75,25 @@ in
   services = {
     bitcoind = {
       enable = true;
+      regtest = true;
       dbCache = 1000;
       extraConfig = ''
-        connect=btc.internal.sirion.io:8333
+        connect=alpha.regtest.sirion.io:8333
+        connect=bravo.regtest.sirion.io:8333
         rpcauth=bitcoin:a15feeea5b0ec69c22a6ba065816c591$e0822ecb0e7b36c9c77ec8aae3889d6fd3323e8fdac8cbd06cf8f83734130fc5
         fallbackfee=0.00008
       '';
       address = "0.0.0.0";
       listen = true;
-      prune = 1000;
     };
 
     clightning = {
-      enable = isGateway;
+      enable = true;
       address = "0.0.0.0";
       plugins = {
         summary.enable = true;
         fedimint-gw = {
-          enable = isGateway;
+          enable = true;
           package = fedimint-override.ln-gateway;
         };
       };
@@ -116,7 +120,7 @@ in
       enable = true;
       recommendedProxySettings = true;
       proxyTimeout = "1d";
-      virtualHosts."gateway.demo.sirion.io" = lib.mkIf isGateway {
+      virtualHosts."gw.${fqdn}" = {
         enableACME = true;
         forceSSL = true;
         locations."/" = {
@@ -129,7 +133,7 @@ in
         enableACME = true;
         forceSSL = true;
         locations."/" = {
-          proxyPass = "http://${ip}:5001";
+          proxyPass = "http://127.0.0.1:5001";
           proxyWebsockets = true;
           extraConfig = "proxy_pass_header Authorization;";
         };

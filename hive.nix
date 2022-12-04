@@ -1,5 +1,6 @@
 let
   demo = import ./machines/demo.nix;
+  regtest = import ./machines/regtest.nix;
 in {
   meta = {
     nixpkgs = <nixpkgs>;
@@ -38,7 +39,9 @@ in {
   };
 
   fm-signet = import ./machines/fm-signet.nix;
+
   sigpay = import ./machines/sigpay.nix;
+
   demo-alpha = demo {
     hostName = "alpha";
     hashedPassword = "$6$hzIRKLk8LIKxm0PT$XHEkBRfYy45AW7evbA8lrdMq64mcBwsKjZ6tHzbJgHFaYNgTvoAR6GdQj.XhYmguXGscrTaJLMlAeDG9KrAyt.";
@@ -58,6 +61,15 @@ in {
     hostName = "delta";
     hashedPassword = "$6$k6QJK/nyCbKEhAU.$ZEDh6dP1t7dC0kJTmWZwlumQRrIFvMcJFxb1r1hNo0..dXq3ftfzcNn2/DtvbaKqMqju6ErxK3LRIyrSImOJu0";
     ip = "45.61.185.226";
+  };
+
+  regtest-alpha = regtest {
+    hostName = "alpha";
+    ip = "45.61.188.218";
+  };
+  regtest-bravo = regtest {
+    hostName = "bravo";
+    ip = "45.61.186.165";
   };
 }
 
