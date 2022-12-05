@@ -14,8 +14,8 @@ let
       }
     )
     { src = fetchTarball {
-        url = "https://github.com/fedimint/fedimint/archive/d6abe820a0e52c84291a112804ef1d9652f2e810.tar.gz";
-        sha256 = "sha256:154kk1p07ijiyjmm4d9x49g8n3d1dmqd0p8szq22jibd7aaaslpr";
+        url = "https://github.com/fedimint/fedimint/archive/d13040431263ff7064726b8d736862da2ba96de3.tar.gz";
+        sha256 = "sha256:1v9j2j1s097srxlz1lim61hzmxzwqwwrax043qhfzgq7g0ac81sz";
       };
     }
   ).defaultNix.packages.x86_64-linux;
@@ -33,7 +33,7 @@ in
   ];
 
   environment.systemPackages = [
-    fedimint-override.fedimint-cli
+    fedimint-override.fedimint-cli fedimint-override.gateway-cli
   ];
  
   networking = {
