@@ -111,11 +111,6 @@ in
       package = fedimint-override.fedimintd;
     };
 
-    ttyd = {
-      enable = true;
-      interface = "lo";
-    };
-
     nginx = {
       enable = true;
       recommendedProxySettings = true;
