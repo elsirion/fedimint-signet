@@ -3,7 +3,10 @@ let
   regtest = import ./machines/regtest.nix;
 in {
   meta = {
-    nixpkgs = <nixpkgs>;
+    nixpkgs = import (builtins.fetchTarball {
+      url    = "https://github.com/NixOS/nixpkgs/archive/f214b8c9455e90b70bafd4ed9a58d448c243e8bb.tar.gz";
+      sha256 = "0y87pmfgpglzr2ma3iq9czcmr3air8zj87qanm19vs4n3w5krgwz";
+    }) {};
   };
 
   defaults = { pkgs, ... }: {
