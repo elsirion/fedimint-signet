@@ -1,6 +1,7 @@
 let
   demo = import ./machines/demo.nix;
   regtest = import ./machines/regtest.nix;
+  mainnet = import ./machines/mainnet.nix;
 in {
   meta = {
     nixpkgs = import (builtins.fetchTarball {
@@ -73,6 +74,13 @@ in {
   regtest-bravo = regtest {
     hostName = "bravo";
     ip = "45.61.186.165";
+  };
+
+  mainnet-dec30 = mainnet {
+    hostName = "mainnet-dec30";
+    fqdn = "dec30.mainnet.sirion.io";
+    githash = "6b01d8f93c8b166073b383cb7ac7c702154d71ce";
+    nixhash = "sha256:0dz211wvbqjpiq94581gp326zwzvl8wshnda28dwshwz316v8jxb";
   };
 }
 
