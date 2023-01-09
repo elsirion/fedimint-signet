@@ -3,8 +3,8 @@
 let
   nix-bitcoin = builtins.fetchGit {
     url = "https://github.com/elsirion/nix-bitcoin/";
-    ref = "adopting";
-    rev = "d2b60c461db2e1f7f7595828dbe3363f7d91f882";
+    ref = "mainnet-v2";
+    rev = "b0c14dc43e96c006e0ea6243b3aba3e640c69901";
   };
   fedimint-override = (import
     (
@@ -14,8 +14,8 @@ let
       }
     )
     { src = fetchTarball {
-        url = "https://github.com/fedimint/fedimint/archive/15febb2e6990aa3e27c94bd5f565b14208752500.tar.gz";
-        sha256 = "sha256:1r9m6njbh73q6dzck1rvk6h57w5vi62flig95jb55zavw0kp93kn";
+        url = "https://github.com/fedimint/fedimint/archive/6d83f71e681089a9ca1d2061d74d3a6763dafb2f.tar.gz";
+        sha256 = "sha256:1lyp85ypzsbl72jy8a5r8j78vwrlfm1009x0iy5fzkfgp9g59rrz";
       };
     }
   ).defaultNix.packages.x86_64-linux;
@@ -35,7 +35,7 @@ in
  
   networking = {
     hostName = hostName;
-    firewall.allowedTCPPorts = [ 80 443 5000 5001 5002 5003 5004 5005 5006 5007 5008 5009 5010 5011 8333 ];
+    firewall.allowedTCPPorts = [ 80 443 8173 8333 ];
     interfaces.ens3.useDHCP = true;
   };
 
@@ -116,11 +116,11 @@ in
       enable = true;
       recommendedProxySettings = true;
       proxyTimeout = "1d";
-      virtualHosts."gateway.demo.sirion.io" = lib.mkIf isGateway {
+      virtualHosts."admin.${fqdn}" = {
         enableACME = true;
         forceSSL = true;
         locations."/" = {
-          proxyPass = "http://127.0.0.1:8080/";
+          proxyPass = "http://127.0.0.1:8172/";
           proxyWebsockets = true;
           extraConfig = "proxy_pass_header Authorization;";
         };
@@ -129,7 +129,7 @@ in
         enableACME = true;
         forceSSL = true;
         locations."/" = {
-          proxyPass = "http://${ip}:5001";
+          proxyPass = "http://127.0.0.1:8174/";
           proxyWebsockets = true;
           extraConfig = "proxy_pass_header Authorization;";
         };
