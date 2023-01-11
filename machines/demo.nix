@@ -14,8 +14,8 @@ let
       }
     )
     { src = fetchTarball {
-        url = "https://github.com/fedimint/fedimint/archive/6d83f71e681089a9ca1d2061d74d3a6763dafb2f.tar.gz";
-        sha256 = "sha256:1lyp85ypzsbl72jy8a5r8j78vwrlfm1009x0iy5fzkfgp9g59rrz";
+        url = "https://github.com/fedimint/fedimint/archive/922e52d8077e6b65547ddfb2286b489b5914c046.tar.gz";
+        sha256 = "sha256:029fg36gk1mfv297ri6kqlppniwnwqjz7zcnxb58fnzdapwvvwgg";
       };
     }
   ).defaultNix.packages.x86_64-linux;
